@@ -1,15 +1,23 @@
 import React from 'react';
-import ToDo from './components/todo/todo';
-import Settings from './components/context/settings/context';
-import '@blueprintjs/core/lib/css/blueprint.css';
+import ToDo from './components/todo';
+import SettingsContext from './context/settings/settings';
+// import 'bootstrap/dist/css/bootstrap.min.css';
 
-export default class App extends React.Component {
-  render() {
+import Header from './components/Header';
+import Footer from './components/Footer';
+import './app.scss';
+
+function App() {
     return (
-     
-      <Settings>
-        <ToDo />
-      </Settings>
+      <>
+         <SettingsContext>
+          <Header />
+          <ToDo />
+         
+        </SettingsContext>
+        <Footer />
+      </>
     );
   }
-}
+  
+export default App;
