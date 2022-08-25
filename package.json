@@ -9,6 +9,7 @@
     "@testing-library/dom": "^8.17.1",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.3.0",
+    "bootstrap": "^5.2.0",
     "gh-pages": "^4.0.0",
     "node-sass": "^7.0.1",
     "normalize.css": "^8.0.1",
