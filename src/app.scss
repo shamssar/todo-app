@@ -2,88 +2,88 @@
 @import '~@blueprintjs/core/lib/css/blueprint.css';
 @import '~@blueprintjs/icons/lib/css/blueprint-icons.css';
 
-.header {
-  background-color: #7c97f8;
-  height:80px;
+// .header {
+//   background-color: #7c97f8;
+//   height:80px;
 
-}
-h2{
-    color:rgb(253, 253, 253);
-    font-size: larger;
+// }
+// h2{
+//     color:rgb(253, 253, 253);
+//     font-size: larger;
    
     
 
-}
-h3{
-    color: hsla(300, 20%, 2%, 0.977);
-}
-#h2{
-    background-color: #9ccaec;
-    color:rgb(221, 250, 249);
-    margin-top: 5px;
-    margin-bottom: 5px;
-    padding-top: 10px;
-    padding-bottom: 10px;
-    padding-left: 10px;
-}
+// }
+// h3{
+//     color: hsla(300, 20%, 2%, 0.977);
+// }
+// #h2{
+//     background-color: #9ccaec;
+//     color:rgb(221, 250, 249);
+//     margin-top: 5px;
+//     margin-bottom: 5px;
+//     padding-top: 10px;
+//     padding-bottom: 10px;
+//     padding-left: 10px;
+// }
 
-.main {
-  margin: 5%;
-  .list{
-   color : rgba(236, 241, 212, 0.831);
-  }
+// .main {
+//   margin: 5%;
+//   .list{
+//    color : rgba(236, 241, 212, 0.831);
+//   }
 
-  .mainCards {
-    margin: 5% !important;
+//   .mainCards {
+//     margin: 5% !important;
   
 
-    .mainItem {
-      margin-bottom: 50px !important;
-      float: left;
-      background-color:#7da45b;
-      color: rgb(220, 208, 208);
-      padding-top: 30px;
-      padding-left: 20px;
-      padding-right: 20px;
-      .button{
-         margin-top: 10px;
-         margin-left: 80px;
-      }
-      .diff{
-        margin-top: 20px;
-        padding-right: 20px;
+//     .mainItem {
+//       margin-bottom: 50px !important;
+//       float: left;
+//       background-color:#7da45b;
+//       color: rgb(220, 208, 208);
+//       padding-top: 30px;
+//       padding-left: 20px;
+//       padding-right: 20px;
+//       .button{
+//          margin-top: 10px;
+//          margin-left: 80px;
+//       }
+//       .diff{
+//         margin-top: 20px;
+//         padding-right: 20px;
 
-      }
+//       }
     
-    }
-    .mainItem2 {
-      margin-bottom: 50px !important;
-      margin-left: 400px !important;
-      background-color:#9ccaec;
-    }
+//     }
+//     .mainItem2 {
+//       margin-bottom: 50px !important;
+//       margin-left: 400px !important;
+//       background-color:#9ccaec;
+//     }
 
-    .listCard {
-      margin-left: 5%;
-      margin-right: 5%;
-      margin-bottom: 20px;
-    }
+//     .listCard {
+//       margin-left: 5%;
+//       margin-right: 5%;
+//       margin-bottom: 20px;
+//     }
 
-    .pages {
-      margin-left: 400px !important;
-    }
-  }
-}
-body{
-    background-color: rgb(241, 239, 233);
-    height:100px;
-}
+//     .pages {
+//       margin-left: 400px !important;
+//     }
+//   }
+// }
+// body{
+//     background-color: rgb(241, 239, 233);
+//     height:100px;
+// }
 
 
-footer {
-    background:#7c97f8;
-    border-top: 1px solid #eee;
-    padding: 1em 3em;
-    margin-top: 500px;
-    text-align:center;
-    color: rgb(16, 16, 15)
-  }
+// footer {
+//     background:#7c97f8;
+//     border-top: 1px solid #eee;
+//     padding: 1em 3em;
+//     margin-top: 500px;
+//     text-align:center;
+//     color: rgb(16, 16, 15)
+//   }
