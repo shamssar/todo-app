@@ -1,6 +1,6 @@
 import './app.scss';
 import React from 'react';
-import ToDo from './components/todo/todo';
+import ToDo from './components/todo';
 import Settings from './context/settings';
 import Auth from './context/auth';
 

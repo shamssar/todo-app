@@ -10,7 +10,7 @@ export default function Auth(props){
     const [user,setUser] = useState(null);
     const [isLoggedIn,setIsLoggedIn] = useState(false);
     const signUp = (username,password,role) => {
-        axios.post("https://my-api-ibra.herokuapp.com/signup",{
+        axios.post("https://sooqna.herokuapp.com//signup",{
             username : username,
             password : password,
             role : role,
@@ -20,7 +20,7 @@ export default function Auth(props){
     }
 
     const signIn=(username,password)=>{
-        axios.post("https://my-api-ibra.herokuapp.com/signin",{
+        axios.post("https://sooqna.herokuapp.com//signin",{
             username,
             password,
 

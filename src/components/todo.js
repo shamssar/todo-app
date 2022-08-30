@@ -1,11 +1,11 @@
 import React, { useEffect, useState ,useContext} from 'react';
-import List from '../list/List';
+import List from './List';
 import { v4 as uuid } from 'uuid';
-import Form from '../form/Form';
-import { SettingsContext } from '../../context/settings.js';
+import Form from './Form';
+import { SettingsContext } from '../context/settings.js';
 import ReactPaginate from 'react-paginate';
 import { Card, Elevation } from "@blueprintjs/core";
-import { AuthContext } from '../../context/auth';
+import { AuthContext } from '../context/auth';
 import { When } from 'react-if';
 
 const ToDo = () => {
@@ -105,7 +105,7 @@ const ToDo = () => {
       <When condition={auth.isLoggedIn}>
          <button onClick={e => {
         auth.signOut();
-      }} className="signOut">sign Out</button>
+      }} className="signOut">Sign out</button>
       </When>     
     </header>
 
