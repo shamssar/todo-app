@@ -1,93 +1,143 @@
-import React, { useEffect, useState, useContext } from 'react';
-import useForm from '../../hooks/form.js';
-import ToDoForm from './Form';
-import ToDoList from './List';
-import { Row, Col, Container } from 'react-bootstrap';
-import { SettingContext } from '../../context/settings/context';
-import PaginationPages from '../pagination/Pagination';
-import { v4 as uuidv4 } from 'uuid';
+import React, { useEffect, useState ,useContext} from 'react';
+import List from '../list/List';
+import { v4 as uuid } from 'uuid';
+import Form from '../form/Form';
+import { SettingsContext } from '../../context/settings.js';
+import ReactPaginate from 'react-paginate';
+import { Card, Elevation } from "@blueprintjs/core";
+import { AuthContext } from '../../context/auth';
+import { When } from 'react-if';
 
-export default function ToDo() {
-  const settings = useContext(SettingContext);
+const ToDo = () => {
+  
+  const [currentItems, setCurrentItems] = useState([]);
+  const [pageCount, setPageCount] = useState(0);
+  const [itemOffset, setItemOffset] = useState(0);
+  const [list, setList] = useState([]);
   const [incomplete, setIncomplete] = useState([]);
-  const { handleChange, handleSubmit } = useForm(addItem);
-  const [currentPage, setCurrentPage] = useState(1);
-  const [show, setShow] = useState(false);
-
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
+  const [sort, setSort] = useState(false);
+  const settings = useContext(SettingsContext);
+  const auth = useContext(AuthContext);
 
   function addItem(item) {
-    item.id = uuidv4();
+    console.log(item);
+    item.id = uuid();
     item.complete = false;
-    const saveList = settings.list;
-    settings.setList([...saveList, item]);
+    setList([...list, item]);
   }
 
   function deleteItem(id) {
-    const items = settings.list.filter((item, index) => index !== id);
-    settings.setList(items);
-    setShow(false);
+    const items = list.filter( item => item.id !== id );
+    setList(items);
   }
 
   function toggleComplete(id) {
-    const items = settings.list.map((item, index) => {
-      if (index == id) {
-        item.complete = !item.complete;
+    const items = list.map( item => {
+      if ( item.id === id ) {
+        item.complete = ! item.complete;
       }
       return item;
     });
-    settings.setList(items);
+    setList(items);
   }
 
-  useEffect(() => {
-    let incompleteCount = settings.list.filter(item => !item.complete).length;
-    setIncomplete(incompleteCount);
-    document.title = `To Do List: ${incomplete}`;
-  });
-
-  function getToDo() {
-    const indexOfLastPost = currentPage * settings.itemsPerPage;
-    const indexOfFirstPost = indexOfLastPost - settings.itemsPerPage;
-    const currentPosts = settings.list.slice(indexOfFirstPost, indexOfLastPost);
-
-    if (!settings.displayComplete) {
-      return currentPosts.filter(item => item.complete === settings.displayComplete);
-    } else {
-      return currentPosts;
+  const handleSort = (e) => {
+    let items = [];
+    console.log(e);
+    switch (e.target.innerText) {
+      case "Sort by Difficulty":
+        items = currentItems.sort((a, b) => {
+          if (a.difficulty > b.difficulty) {
+            return 1;
+          } else if (a.difficulty < b.difficulty) {
+            return -1;
+          }
+          return 0;
+        })
+        settings.setSortBy("difficulty");
+        break;
+      case "Sort by Assignee":
+        items = currentItems.sort((a, b) => {
+          return a.assignee.localeCompare(b.assignee);
+        })
+        settings.setSortBy("assignee");
+        break;
+      default: break;
     }
+    console.log(items);
+    setSort(!sort);
+    setList(items);
   }
-  // Change page
-  const paginate = pageNumber => setCurrentPage(pageNumber);
-
+  
+  useEffect(() => {
+    if(list){
+      localStorage.setItem('list', JSON.stringify(list));
+    }
+   }, [list]);
+ 
+   useEffect(() => {
+     const endOffset = itemOffset + settings.numberItems;
+     console.log(`Loading items from ${itemOffset} to ${endOffset}`);
+     setCurrentItems(list.slice(itemOffset, endOffset));
+     setPageCount(Math.ceil(list.length / settings.numberItems));
+   }, [itemOffset, settings.numberItems, list]);
+ 
+ 
+   useEffect(() => {
+     setList(list)
+     let incompleteCount = list.filter(item => !item.complete).length;
+     setIncomplete(incompleteCount);
+     document.title = `To Do List: ${incomplete}`;
+   }, [list, sort, incomplete]);
+ 
+   const handlePageClick = (event) => {
+     const newOffset = (event.selected * settings.numberItems) % list.length;
+     console.log(
+       `User requested page number ${event.selected}, which is offset ${newOffset}`
+     );
+     setItemOffset(newOffset);
+   };
+   
   return (
     <>
-      <Container className="mt-1" gap="30">
-        <Row xs={4} md={2} className="g-4">
-          <Col>
-            <ToDoForm handleSubmit={handleSubmit} handleChange={handleChange} />
-          </Col>
-          <Col>
-            <div>
-              <h1 style={{ fontFamily: 'cursive' }}>To Do List: {incomplete} items pending</h1>
-            </div>
-            <ToDoList
-              incomplete={incomplete}
-              list={getToDo()}
-              toggleComplete={toggleComplete}
-              deleteItem={deleteItem}
-              show={show}
-              handleShow={handleShow}
-              handleClose={handleClose}
-            />
-            <PaginationPages
-              itemsPerPage={settings.itemsPerPage}
-              totalList={settings.list.length}
-              paginate={paginate}
-            />
-          </Col>
-        </Row>
-      </Container>
-    </>
+    <header className='headerclass'>
+      <h1>To Do List: {incomplete} items pending</h1>
+      <When condition={auth.isLoggedIn}>
+         <button onClick={e => {
+        auth.signOut();
+      }} className="signOut">sign Out</button>
+      </When>     
+    </header>
+
+    <div className='container'>
+      <Card elevation={Elevation.TWO} className='card-form'>
+        <Form addItem={addItem} handleSort={handleSort} />
+      </Card>
+      <When condition={auth.isLoggedIn}>
+      <div className='list-container'>
+        {currentItems.map(item => (
+          <List item={item} deleteItem={deleteItem} toggleComplete={toggleComplete} />
+        ))}
+      </div>
+      </When>
+    </div>
+
+    <When condition={auth.isLoggedIn}>
+    <div className='pag'>
+      <ReactPaginate
+        breakLabel="..."
+        nextLabel="next >"
+        onPageChange={handlePageClick}
+        pageRangeDisplayed={5}
+        pageCount={pageCount}
+        previousLabel="< previous"
+        renderOnZeroPageCount={null}
+      />
+    </div>
+    </When>
+
+  </>
   );
 };
+
+export default ToDo;
